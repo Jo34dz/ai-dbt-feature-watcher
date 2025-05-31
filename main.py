@@ -5,6 +5,13 @@ from utils.slack_notifier import post_to_slack
 import os
 from dotenv import load_dotenv
 
+
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    print("❌ OPENAI_API_KEY is NOT loaded.")
+else:
+    print(f"🔐 OPENAI_API_KEY is loaded: {api_key[:5]}...")
+
 load_dotenv()  # Loads your .env file with API keys and Slack webhook
 
 def main():
