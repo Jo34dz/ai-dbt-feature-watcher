@@ -1,7 +1,7 @@
 from fetchers.blog_fetcher import fetch_dbt_blog_entries
 from summarizer.llm import summarize_entry
 from notifiers.cli_notifier import notify_terminal
-from notifiers.slack_notifier import notify_slack
+from utils.slack_notifier import post_to_slack
 import os
 from dotenv import load_dotenv
 
@@ -20,7 +20,8 @@ def main():
         if summary:
             entry["summary"] = summary
             notify_terminal(entry)
-            notify_slack(entry)
+            post_to_slack(...)
+
         else:
             print(f"❌ Could not summarize: {entry['title']}")
 
