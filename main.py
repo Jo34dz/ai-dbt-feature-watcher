@@ -29,14 +29,16 @@ import openai
 #         post_to_slack(message)
 #     else:
 #         print(f"❌ Could not summarize: {entry.title}")
-openai.api_key = os.getenv("OPENAI_API_KEY")
+from openai import OpenAI
 
+print("🌐 Testing OpenAI connection...")
 try:
-    print("🌐 Testing OpenAI connection...")
-    response = openai.models.list()
-    print("✅ Connection successful. Available models:")
-    for model in response.data[:3]:  # just print 3 models for brevity
-        print(f" - {model.id}")
+    client = OpenAI()
+    client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": "Hello"}],
+    )
+    print("✅ OpenAI connection successful.")
 except Exception as e:
     print("❌ Connection to OpenAI failed:")
     print(e)
