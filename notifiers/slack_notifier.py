@@ -1,26 +1,21 @@
 import os
 import requests
 
-def notify_slack(entry):
+def post_to_slack(title, link, summary):
     webhook_url = os.getenv("SLACK_WEBHOOK_URL")
     if not webhook_url:
-        print("⚠️ SLACK_WEBHOOK_URL not set in .env")
+        print("❌ SLACK_WEBHOOK_URL not found in environment variables.")
         return
 
-    message = (
-        f"*🆕 dbt Feature Update*\n"
-        f"*Title:* {entry['title']}\n"
-        f"*Link:* {entry['link']}\n"
-        f"*Summary:* {entry['summary']}"
-    )
+    payload = {
+        "text": f"\ud83d\udce2 *{title}*\n\ud83d\udd17 {link}\n\ud83e\udde0 {summary}"
+    }
 
-    response = requests.post(
-        webhook_url,
-        json={"text": message},
-        headers={"Content-Type": "application/json"}
-    )
-
-    if response.status_code != 200:
-        print(f"❌ Failed to post to Slack: {response.status_code}")
-    else:
-        print("✅ Posted to Slack")
+    try:
+        response = requests.post(webhook_url, json=payload)
+        if response.status_code == 200:
+            print("\u2705 Successfully posted to Slack.")
+        else:
+            print(f"❌ Failed to post to Slack. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        print(f"❌ Exception while posting to Slack: {str(e)}")
