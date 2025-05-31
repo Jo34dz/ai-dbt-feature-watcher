@@ -4,3 +4,5 @@ python-dotenv
 openai
 slack_sdk
 selenium
+requests
+feedparser
