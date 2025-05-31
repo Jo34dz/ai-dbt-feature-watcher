@@ -1,21 +1,18 @@
-import sys, os
-from dotenv import load_dotenv
-load_dotenv()  # 👈 ADD THIS
-
+import sys
+import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 
 from fetchers.blog_fetcher import fetch_dbt_blog_entries
 from summarizer.llm import summarize_entry
 
-def test_summarize_blog_entries():
-    entries = fetch_dbt_blog_entries()
-    print(f"🧪 Testing summarization of {len(entries)} entries...")
+print("🧪 Testing summarization of 2 entries...\n")
 
-    for entry in entries:
-        summary = summarize_entry(entry)
-        print("\n📰", entry["title"])
-        print("🤖 LLM Summary:", summary or "❌ Failed")
+entries = fetch_dbt_blog_entries()[:2]
 
-if __name__ == "__main__":
-    test_summarize_blog_entries()
+for entry in entries:
+    print(f"📰 {entry.title}")
+    summary = summarize_entry(entry)
+    if summary:
+        print(f"🤖 LLM Summary: {summary}\n")
+    else:
+        print(f"❌ Failed to summarize: {entry.title}\n")
