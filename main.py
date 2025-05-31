@@ -3,8 +3,15 @@ from dotenv import load_dotenv
 from fetchers.blog_fetcher import fetch_dbt_blog_entries
 from summarizer.llm import summarize_entry
 from notifiers.slack_notifier import post_to_slack
+import openai
 
 load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+if not openai.api_key:
+    print("❌ OPENAI_API_KEY not loaded.")
+else:
+    print("✅ OPENAI_API_KEY loaded.")
 
 print("🔎 Checking for new dbt blog posts...\n")
 
