@@ -22,6 +22,7 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
+          echo "✅ Dependencies installed"
 
       - name: Run Feature Watcher
         env:
@@ -29,4 +30,5 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           source venv/bin/activate
+          echo "▶️ Running main.py"
           python main.py
